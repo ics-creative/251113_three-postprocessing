@@ -28,6 +28,13 @@
 - `as`キャストの使用禁止
 - Non-null assertion (`!`) の使用は推奨されない（Biome警告）
 
+### 関数の記法
+
+- **すべての関数はアロー関数で統一すること**
+  - ❌ `function animate() { ... }`
+  - ✅ `const animate = () => { ... }`
+- 注意: Biomeには関数宣言をアロー関数に強制するルールが存在しないため、手動で統一する必要がある
+
 ### 責務分離の原則
 
 - 関数は単一の責務を持つこと
@@ -63,9 +70,7 @@ npm run _format
 three-webgpu/
 ├── src/
 │   ├── main.ts          # エントリーポイント
-│   ├── counter.ts       # サンプルコード
-│   ├── style.css        # グローバルスタイル
-│   └── typescript.svg   # アセット
+│   └── style.css        # グローバルスタイル
 ├── public/              # 静的ファイル
 ├── index.html           # HTMLテンプレート
 ├── biome.json           # Biome設定
