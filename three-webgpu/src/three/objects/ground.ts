@@ -5,7 +5,7 @@ import { gui } from "../gui";
 const noise2D = createNoise2D();
 
 export const createGround = (scene: THREE.Scene): void => {
-  const groundGeometry = new THREE.PlaneGeometry(30, 30, 12, 12);
+  const groundGeometry = new THREE.PlaneGeometry(30, 30, 24, 24);
   const groundMaterial = new THREE.MeshStandardMaterial({
     color: 0xbeeca2, // 草の緑色
     roughness: 0.8,
@@ -23,7 +23,7 @@ export const createGround = (scene: THREE.Scene): void => {
 
       // simplex-noiseで高さを計算（回転前のz座標を変更）
       const noiseValue = noise2D(x * frequency, y * frequency);
-      const height = noiseValue * 0.5; // 振幅を3に設定
+      const height = noiseValue * 0.5;
 
       positionAttribute.setZ(index, height);
     }
@@ -38,6 +38,7 @@ export const createGround = (scene: THREE.Scene): void => {
   const ground = new THREE.Mesh(groundGeometry, groundMaterial);
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = 0;
+  ground.receiveShadow = true;
   scene.add(ground);
 
   // lil-guiでパラメータコントロール追加
@@ -45,7 +46,7 @@ export const createGround = (scene: THREE.Scene): void => {
   const groundParams = {
     color: "#beeca2",
     frequency: 0.2,
-    amplitude: 0.5,
+    amplitude: 0.8,
   };
 
   groundFolder.addColor(groundParams, "color").onChange((value: string) => {

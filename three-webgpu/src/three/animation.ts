@@ -1,11 +1,11 @@
 import type * as THREE from "three";
-import type { WebGPURenderer } from "three/webgpu";
+import type { PostProcessing } from "three/webgpu";
 import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 export const startAnimation = (
   scene: THREE.Scene,
   camera: THREE.PerspectiveCamera,
-  renderer: WebGPURenderer,
+  postprocessing: PostProcessing,
   controls: OrbitControls,
   _trees: THREE.Group[],
   _clouds: THREE.Group[],
@@ -43,7 +43,7 @@ export const startAnimation = (
     //   1 + Math.sin(time * 0.5) * 0.1,
     // );
 
-    renderer.render(scene, camera);
+    postprocessing.render();
   };
 
   animate();

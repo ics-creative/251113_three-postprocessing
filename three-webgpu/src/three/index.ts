@@ -5,6 +5,8 @@ import { createTrees } from "./objects/tree";
 import { createClouds } from "./objects/cloud";
 import { createControls } from "./controls";
 import { startAnimation } from "./animation";
+import { createTrees2 } from "./objects/tree2";
+import { createPostProcessing } from "./postprocess";
 
 export const init = (container: HTMLDivElement): void => {
   // シーン、カメラ、レンダラーの初期化
@@ -19,11 +21,15 @@ export const init = (container: HTMLDivElement): void => {
   // オブジェクトの作成
   createGround(scene);
   const trees = createTrees(scene);
+  const tree2 = createTrees2(scene);
   const clouds = createClouds(scene);
+
+  // ポストプロセス
+  const postprocessing = createPostProcessing(scene, camera, renderer);
 
   // リサイズイベントの登録
   window.addEventListener("resize", handleResize);
 
   // アニメーション開始
-  startAnimation(scene, camera, renderer, controls, trees, clouds);
+  startAnimation(scene, camera, postprocessing, controls, trees, clouds);
 };
