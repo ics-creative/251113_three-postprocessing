@@ -3,8 +3,6 @@ import type { PostProcessing } from "three/webgpu";
 import type { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 export const startAnimation = (
-  scene: THREE.Scene,
-  camera: THREE.PerspectiveCamera,
   postprocessing: PostProcessing,
   controls: OrbitControls,
   _trees: THREE.Group[],

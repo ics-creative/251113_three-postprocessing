@@ -1,8 +1,8 @@
-import * as THREE from "three";
-import { PostProcessing, WebGPURenderer } from "three/webgpu";
+import type * as THREE from "three";
+import { PostProcessing, type WebGPURenderer } from "three/webgpu";
 import { pass } from "three/tsl";
-import { bloom } from "three/addons/tsl/display/BloomNode.js";
-import { gui } from "./gui";
+// import { createBloom } from "./postprocess/bloom";
+import { createChromatic } from "./postprocess/chromatic";
 
 export const createPostProcessing = (
   scene: THREE.Scene,
@@ -12,31 +12,13 @@ export const createPostProcessing = (
   const postprocessing = new PostProcessing(renderer);
   const scenePass = pass(scene, camera);
   const scenePassColor = scenePass.getTextureNode();
+  const viewZ = scenePass.getViewZNode();
 
-  const bloomPass = bloom(scenePassColor);
-  postprocessing.outputNode = bloomPass;
+  // const bloomPass = createBloom(scenePassColor);
+  // postprocessing.outputNode = bloomPass;
 
-  const bloomFolder = gui.addFolder("Bloom");
-  const bloomParams = {
-    strength: bloomPass.strength.value,
-    radius: bloomPass.radius.value,
-    threshold: bloomPass.threshold.value,
-    smoothWidth: bloomPass.smoothWidth.value,
-  };
-
-  bloomFolder
-    .add(bloomParams, "strength", 0, 3, 0.01)
-    .name("Strength")
-    .onChange((value: number) => {
-      bloomPass.strength.value = value;
-    });
-
-  bloomFolder
-    .add(bloomParams, "radius", 0, 1, 0.01)
-    .name("Radius")
-    .onChange((value: number) => {
-      bloomPass.radius.value = value;
-    });
+  const chromaticPass = createChromatic(scenePassColor, viewZ);
+  postprocessing.outputNode = chromaticPass;
 
   return postprocessing;
 };

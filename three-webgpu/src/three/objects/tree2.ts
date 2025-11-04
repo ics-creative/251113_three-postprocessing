@@ -27,11 +27,8 @@ export const createStackedConeTree = (
   const tree = new THREE.Group();
 
   const trunkHeight = 1.4 * scale;
-  const trunkGeometry =  new THREE.ConeGeometry(0.25 * scale, 3.0, 12);
-  const trunk = new THREE.Mesh(
-    trunkGeometry,
-    trunkMaterial,
-  );
+  const trunkGeometry = new THREE.ConeGeometry(0.25 * scale, 3.0, 12);
+  const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
   trunk.position.y = trunkHeight / 2;
   tree.add(trunk);
 
@@ -44,7 +41,7 @@ export const createStackedConeTree = (
       leavesMaterial,
     );
 
-    heightOffset += scaledHeight / 3; 
+    heightOffset += scaledHeight / 3;
     cone.position.y = heightOffset;
     heightOffset += scaledHeight / 3;
 

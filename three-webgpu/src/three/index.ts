@@ -21,7 +21,7 @@ export const init = (container: HTMLDivElement): void => {
   // オブジェクトの作成
   createGround(scene);
   const trees = createTrees(scene);
-  const tree2 = createTrees2(scene);
+  createTrees2(scene);
   const clouds = createClouds(scene);
 
   // ポストプロセス
@@ -31,5 +31,5 @@ export const init = (container: HTMLDivElement): void => {
   window.addEventListener("resize", handleResize);
 
   // アニメーション開始
-  startAnimation(scene, camera, postprocessing, controls, trees, clouds);
+  startAnimation(postprocessing, controls, trees, clouds);
 };
