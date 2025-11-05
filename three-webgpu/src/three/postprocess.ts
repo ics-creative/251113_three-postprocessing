@@ -3,6 +3,7 @@ import { PostProcessing, type WebGPURenderer } from "three/webgpu";
 import { pass } from "three/tsl";
 // import { createBloom } from "./postprocess/bloom";
 import { createChromatic } from "./postprocess/chromatic";
+// import { createFilm } from "./postprocess/film";
 
 export const createPostProcessing = (
   scene: THREE.Scene,
@@ -19,6 +20,9 @@ export const createPostProcessing = (
 
   const chromaticPass = createChromatic(scenePassColor, viewZ);
   postprocessing.outputNode = chromaticPass;
+
+  // const filmPass = createFilm(scenePassColor, viewZ);
+  // postprocessing.outputNode = filmPass;
 
   return postprocessing;
 };
