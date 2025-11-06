@@ -6,10 +6,10 @@ const noise2D = createNoise2D();
 
 const seaParams = {
   color: "#52cbff",
-  frequency: 0.15,
+  frequency: 0.1,
   amplitude: 0.7,
   waveSpeed: 0.2,
-  waveAmplitude: 0.2,
+  waveAmplitude: 0.4,
 };
 
 let seaGeom: THREE.PlaneGeometry | null = null;
@@ -43,7 +43,7 @@ const applyNoise = () => {
 };
 
 export const createSea = (): THREE.Mesh => {
-  seaGeom = new THREE.PlaneGeometry(100, 60, 128, 128);
+  seaGeom = new THREE.PlaneGeometry(100, 60, 64, 64);
   const seaMat = new THREE.MeshStandardMaterial({
     color: seaParams.color,
     metalness: 1.0,
@@ -98,5 +98,7 @@ const addGui = (seaMat: THREE.MeshStandardMaterial) => {
   });
 
   seaFolder.add(seaParams, "waveSpeed", 0.1, 2.0, 0.1).name("Wave Speed");
-  seaFolder.add(seaParams, "waveAmplitude", 0, 2.0, 0.1).name("Wave Amplitude");
+  seaFolder
+    .add(seaParams, "waveAmplitude", 0, 10.0, 0.01)
+    .name("Wave Amplitude");
 };

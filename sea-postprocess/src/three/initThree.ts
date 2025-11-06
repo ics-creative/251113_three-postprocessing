@@ -1,6 +1,8 @@
 import { createScene, handleResize } from "./createScene";
 import { animateSea, createSea } from "./createSea";
 import * as THREE from "three";
+import { initPostprocess } from "./postprocess/initPostprocess";
+import { animateClouds, createClouds } from "./createClouds";
 
 export const initThree = (app: HTMLDivElement) => {
   const { scene, camera, renderer } = createScene(app);
@@ -8,13 +10,19 @@ export const initThree = (app: HTMLDivElement) => {
   const sea = createSea();
   scene.add(sea);
 
+  const clouds = createClouds();
+  scene.add(clouds);
+
+  const postprocessing = initPostprocess(scene, camera, renderer);
+
   const clock = new THREE.Clock();
 
   const tick = () => {
-    renderer.render(scene, camera);
+    postprocessing.render();
     const elapsedTime = clock.getElapsedTime();
     // console.log(elapsedTime)
     animateSea(elapsedTime);
+    animateClouds(elapsedTime);
     requestAnimationFrame(tick);
   };
 
