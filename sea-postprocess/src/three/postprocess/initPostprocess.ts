@@ -8,9 +8,12 @@ import {
 import { pass, type ShaderNodeObject } from "three/tsl";
 import { createChromatic } from "./chromatic";
 import { gui } from "../../gui/gui";
+import { createBloom } from "./bloom";
+
+type Effect = "none" | "chromatic" | "bloom";
 
 const params = {
-  effect: "chromatic" as "none" | "chromatic",
+  effect: "none",
 };
 
 export const initPostprocess = (
@@ -38,13 +41,15 @@ const addGui = (
   const postprocessingFolder = gui.addFolder("Postprocessing");
 
   postprocessingFolder
-    .add(params, "effect", ["none", "chromatic"])
+    .add(params, "effect", ["none", "chromatic", "bloom"])
     .name("Effect")
-    .onChange((value: "none" | "chromatic") => {
+    .onChange((value: Effect) => {
       if (value === "none") {
         postprocessing.outputNode = scenePassColor;
       } else if (value === "chromatic") {
         postprocessing.outputNode = createChromatic(scenePassColor, viewZ);
+      } else if (value === "bloom") {
+        postprocessing.outputNode = createBloom(scenePassColor);
       }
       postprocessing.needsUpdate = true;
     });
