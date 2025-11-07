@@ -26,28 +26,3 @@ export const createChromatic = (
 
   return dofPass;
 };
-
-// const addGui = (chromaticPass: ShaderNodeObject<TextureNode>) => {
-//   const chromaticFolder = gui.addFolder("Chromatic / DOF");
-//   const centerVector = new THREE.Vector2(
-//     chromaticParams.centerX,
-//     chromaticParams.centerY,
-//   );
-
-//   chromaticFolder
-//   .add(chromaticParams, "centerX", 0, 1, 0.01)
-//   .name("Center X")
-//   .onChange((value: number) => {
-//     centerVector.x = value;
-//     centerNode.value.x = value;
-//   });
-
-// chromaticFolder
-//   .add(chromaticParams, "centerY", 0, 1, 0.01)
-//   .name("Center Y")
-//   .onChange((value: number) => {
-//     centerVector.y = value;
-//     centerNode.value.y = value;
-//   });
-
-// }
