@@ -3,6 +3,7 @@ import { animateSea, createSea } from "./createSea";
 import * as THREE from "three";
 import { initPostprocess } from "./postprocess/initPostprocess";
 import { animateClouds, createClouds } from "./createClouds";
+import { createIsland } from "./createIsland";
 
 export const initThree = (app: HTMLDivElement) => {
   const { scene, camera, renderer } = createScene(app);
@@ -12,6 +13,9 @@ export const initThree = (app: HTMLDivElement) => {
 
   const clouds = createClouds();
   scene.add(clouds);
+
+  const island = createIsland();
+  scene.add(island);
 
   const postprocessing = initPostprocess(scene, camera, renderer);
 

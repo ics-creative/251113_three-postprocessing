@@ -5,7 +5,7 @@ import { gui } from "../gui/gui";
 const noise2D = createNoise2D();
 
 const seaParams = {
-  color: "#52cbff",
+  color: "#52ebff",
   frequency: 0.1,
   amplitude: 0.7,
   waveSpeed: 0.2,
@@ -43,7 +43,7 @@ const applyNoise = () => {
 };
 
 export const createSea = (): THREE.Mesh => {
-  seaGeom = new THREE.PlaneGeometry(100, 60, 64, 64);
+  seaGeom = new THREE.PlaneGeometry(120, 60, 64, 64);
   const seaMat = new THREE.MeshStandardMaterial({
     color: seaParams.color,
     metalness: 1.0,

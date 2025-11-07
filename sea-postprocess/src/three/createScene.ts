@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { WebGPURenderer } from "three/webgpu";
 import { gui } from "../gui/gui";
+import { OrbitControls } from "three/examples/jsm/Addons.js";
 
 const sceneParams = {
   backgroundColor: "#87ceeb",
@@ -22,14 +23,24 @@ export const createScene = (container: HTMLDivElement) => {
     0.1,
     1000,
   );
-  camera.position.set(0, 6, 30);
-  camera.lookAt(0, 0, 0);
+  camera.position.set(0, 8, 30);
+  camera.lookAt(0, 5, 0);
 
   const renderer = new WebGPURenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
 
   container.appendChild(renderer.domElement);
+
+  const orbitControls = new OrbitControls(camera, renderer.domElement);
+  orbitControls.enableDamping = true;
+  orbitControls.dampingFactor = 0.25;
+  orbitControls.enableZoom = true;
+  orbitControls.enablePan = true;
+  orbitControls.enableRotate = true;
+  orbitControls.enableZoom = true;
+  orbitControls.enablePan = true;
+  orbitControls.enableRotate = true;
 
   addGui(scene);
 
@@ -52,11 +63,20 @@ const createLights = (scene: THREE.Scene): void => {
     directionalLight2,
   );
 
+  const directionalLight3 = new THREE.DirectionalLight(0xffffff, 1);
+  directionalLight3.position.set(0, 15, 10);
+  directionalLight3.lookAt(0, 0, 10);
+  const directionalLightHelper3 = new THREE.DirectionalLightHelper(
+    directionalLight3,
+  );
+
   scene.add(
     directionalLight,
     directionalLight2,
+    directionalLight3,
     directionalLightHelper,
     directionalLightHelper2,
+    directionalLightHelper3,
   );
 };
 

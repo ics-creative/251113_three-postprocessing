@@ -1,7 +1,7 @@
 import * as THREE from "three";
-const cloudMaterial = new THREE.MeshStandardMaterial({
+
+const cloudMaterial = new THREE.MeshBasicMaterial({
   color: 0xffffff,
-  roughness: 1,
 });
 
 const cloud1 = [
@@ -63,19 +63,19 @@ const createCloud = (cloudData: typeof cloud1 | typeof cloud2) => {
 export const createClouds = () => {
   const clouds = new THREE.Group();
   cloud1Group = createCloud(cloud1);
-  cloud1Group.position.set(0, 24, -32);
+  cloud1Group.position.set(0, 34, -32);
   cloud1Group.scale.set(15, 10, 10);
   clouds.add(cloud1Group);
 
   cloud2Group = createCloud(cloud2);
-  cloud2Group.position.set(50, 20, -35);
+  cloud2Group.position.set(50, 30, -35);
   cloud2Group.scale.set(10, 7, 7);
   clouds.add(cloud2Group);
 
   cloud3Group = createCloud(cloud1);
-  cloud3Group.position.set(-40, 20, -40);
+  cloud3Group.position.set(-60, 20, -40);
   cloud3Group.scale.set(20, 17, 17);
-  cloud3Group.rotation.y = -Math.PI / 15;
+  cloud3Group.rotation.y = -Math.PI;
   clouds.add(cloud3Group);
 
   return clouds;
