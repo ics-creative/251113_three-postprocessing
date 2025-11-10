@@ -5,10 +5,12 @@ import { dof } from "three/addons/tsl/display/DepthOfFieldNode.js";
 import * as THREE from "three";
 import { float, uniform } from "three/tsl";
 
-export const createChromatic = (
-  node: ShaderNodeObject<TextureNode>,
-  viewZ: ShaderNodeObject<Node>,
-) => {
+/**
+ * chromaticエフェクトの作成
+ * @param node
+ * @param viewZ
+ */
+export const createChromatic = (node: ShaderNodeObject<TextureNode>, viewZ: ShaderNodeObject<Node>) => {
   const centerVector = new THREE.Vector2(0.4, 0.4);
   const centerNode = uniform(centerVector);
   const chromaticPass = chromaticAberration(node, float(0.2), centerNode);
