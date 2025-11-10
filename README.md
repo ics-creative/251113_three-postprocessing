@@ -1,5 +1,9 @@
 ICS MEDIA『』のサンプルコードです。
 
+以下のURLからデモを確認できます。
+
+https://ics-creative.github.io/251113_three-postprocessing/
+
 ## 機能
 
 - 海、島、雲のある3Dシーン
