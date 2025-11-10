@@ -1,28 +1,61 @@
 import * as THREE from "three";
 import { WebGPURenderer } from "three/webgpu";
-import { gui } from "../gui/gui";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { getParams } from "./getParams";
+import type { DayMode, Effect } from "./types";
 
 const sceneParams = {
-  backgroundColor: "#87ceeb",
-  fogColor: "#87ceeb",
   fogNear: 18,
   fogFar: 70,
 };
 
+// ライティングの作成
+const createLights = (scene: THREE.Scene) => {
+  const params = getParams("day");
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, params.ambientLightIntensity);
+  scene.add(ambientLight);
+
+  const directionalLight1 = new THREE.DirectionalLight(0xffffff, params.dirLight1Intensity);
+  directionalLight1.position.set(5, 15, 15);
+
+  const directionalLight2 = new THREE.DirectionalLight(0xffffff, params.dirLight2Intensity);
+  directionalLight2.position.set(-5, 15, 10);
+
+  const directionalLight3 = new THREE.DirectionalLight(0xffffff, params.dirLight3Intensity);
+  directionalLight3.position.set(0, 15, 10);
+  directionalLight3.lookAt(0, 0, 10);
+
+  return {
+    ambientLight,
+    directionalLight1,
+    directionalLight2,
+    directionalLight3,
+  };
+};
+
+// fogの作成
+const createFog = (mode: DayMode) => {
+  const params = getParams(mode);
+  const fog = new THREE.Fog(params.backgroundColor, sceneParams.fogNear, sceneParams.fogFar);
+  return { fog };
+};
+
+/**
+ * シーンの作成
+ * @param container
+ */
 export const createScene = (container: HTMLDivElement) => {
+  const params = getParams("day");
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(sceneParams.backgroundColor);
+  scene.background = new THREE.Color(params.backgroundColor);
 
-  createLights(scene);
-  createFog(scene);
+  const { ambientLight, directionalLight1, directionalLight2, directionalLight3 } = createLights(scene);
+  scene.add(ambientLight, directionalLight1, directionalLight2, directionalLight3);
+  const { fog } = createFog("day");
+  scene.fog = fog;
 
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000,
-  );
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 8, 30);
   camera.lookAt(0, 5, 0);
 
@@ -32,86 +65,33 @@ export const createScene = (container: HTMLDivElement) => {
 
   container.appendChild(renderer.domElement);
 
-  const orbitControls = new OrbitControls(camera, renderer.domElement);
-  orbitControls.enableDamping = true;
-  orbitControls.dampingFactor = 0.25;
-  orbitControls.enableZoom = true;
-  orbitControls.enablePan = true;
-  orbitControls.enableRotate = true;
-  orbitControls.enableZoom = true;
-  orbitControls.enablePan = true;
-  orbitControls.enableRotate = true;
+  new OrbitControls(camera, renderer.domElement);
 
-  addGui(scene);
+  // シーンのエフェクトを変更する
+  const onChangeEffectScene = (effect: Effect) => {
+    const mode = effect === "bloom" ? "night" : "day";
+    const params = getParams(mode);
 
-  return { scene, camera, renderer };
+    const { fog } = createFog(mode);
+    scene.fog = fog;
+    scene.background = new THREE.Color(params.backgroundColor);
+
+    ambientLight.intensity = params.ambientLightIntensity;
+    directionalLight1.intensity = params.dirLight1Intensity;
+    directionalLight2.intensity = params.dirLight2Intensity;
+    directionalLight3.intensity = params.dirLight3Intensity;
+  };
+
+  return { scene, camera, renderer, onChangeEffectScene };
 };
 
-const createLights = (scene: THREE.Scene): void => {
-  const ambientLight = new THREE.AmbientLight(0xffffff, 2);
-  scene.add(ambientLight);
-
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(5, 15, 15);
-  const directionalLightHelper = new THREE.DirectionalLightHelper(
-    directionalLight,
-  );
-
-  const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight2.position.set(-5, 15, 10);
-  const directionalLightHelper2 = new THREE.DirectionalLightHelper(
-    directionalLight2,
-  );
-
-  const directionalLight3 = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight3.position.set(0, 15, 10);
-  directionalLight3.lookAt(0, 0, 10);
-  const directionalLightHelper3 = new THREE.DirectionalLightHelper(
-    directionalLight3,
-  );
-
-  scene.add(
-    directionalLight,
-    directionalLight2,
-    directionalLight3,
-    directionalLightHelper,
-    directionalLightHelper2,
-    directionalLightHelper3,
-  );
-};
-
-const createFog = (scene: THREE.Scene) => {
-  const fog = new THREE.Fog(
-    sceneParams.fogColor,
-    sceneParams.fogNear,
-    sceneParams.fogFar,
-  );
-  scene.fog = fog;
-};
-
-export const handleResize = (
-  camera: THREE.PerspectiveCamera,
-  renderer: WebGPURenderer,
-) => {
+/**
+ * ウィンドウサイズが変更された時の処理
+ * @param camera
+ * @param renderer
+ */
+export const handleResize = (camera: THREE.PerspectiveCamera, renderer: WebGPURenderer) => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-};
-
-const addGui = (scene: THREE.Scene) => {
-  gui.addColor(sceneParams, "backgroundColor").onChange((value: string) => {
-    scene.background = new THREE.Color(value);
-  });
-
-  gui.addColor(sceneParams, "fogColor").onChange((value: string) => {
-    scene.fog = new THREE.Fog(value, sceneParams.fogNear, sceneParams.fogFar);
-  });
-
-  gui.add(sceneParams, "fogNear", 0, 100, 1).onChange((value: number) => {
-    scene.fog = new THREE.Fog(sceneParams.fogColor, value, sceneParams.fogFar);
-  });
-
-  gui.add(sceneParams, "fogFar", 0, 100, 1).onChange((value: number) => {
-    scene.fog = new THREE.Fog(sceneParams.fogColor, sceneParams.fogNear, value);
-  });
 };

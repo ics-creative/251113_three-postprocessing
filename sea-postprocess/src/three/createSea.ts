@@ -28,10 +28,7 @@ const applyNoise = () => {
     const x = positionAttribute.getX(index);
     const y = positionAttribute.getY(index);
 
-    const noiseValue = noise2D(
-      x * seaParams.frequency,
-      y * seaParams.frequency,
-    );
+    const noiseValue = noise2D(x * seaParams.frequency, y * seaParams.frequency);
     const height = noiseValue * seaParams.amplitude;
 
     positionAttribute.setZ(index, height);
@@ -47,13 +44,9 @@ export const createSea = (): THREE.Mesh => {
   const seaMat = new THREE.MeshStandardMaterial({
     color: seaParams.color,
     metalness: 1.0,
-    // roughness: 0.8,
-    // side: THREE.DoubleSide,
-    // wireframe: true,
   });
   // 初期ノイズを適用
   applyNoise();
-  // applyNoise(seaGeom, seaParams.frequency, seaParams.amplitude);
 
   const sea = new THREE.Mesh(seaGeom, seaMat);
   sea.rotation.x = -Math.PI / 2;
@@ -78,10 +71,7 @@ export const animateSea = (elapsedTime: number) => {
     const originalZ = originalZPositions[index];
 
     // xとyの値からノイズを生成し、timeで変化させる
-    const noiseValue = noise2D(
-      x * seaParams.frequency + time,
-      y * seaParams.frequency + time,
-    );
+    const noiseValue = noise2D(x * seaParams.frequency + time, y * seaParams.frequency + time);
     const waveHeight = noiseValue * seaParams.waveAmplitude;
 
     // 元のz座標を基準に波の高さを加算
@@ -98,7 +88,5 @@ const addGui = (seaMat: THREE.MeshStandardMaterial) => {
   });
 
   seaFolder.add(seaParams, "waveSpeed", 0.1, 2.0, 0.1).name("Wave Speed");
-  seaFolder
-    .add(seaParams, "waveAmplitude", 0, 10.0, 0.01)
-    .name("Wave Amplitude");
+  seaFolder.add(seaParams, "waveAmplitude", 0, 10.0, 0.01).name("Wave Amplitude");
 };

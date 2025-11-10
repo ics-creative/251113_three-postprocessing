@@ -1,8 +1,8 @@
 import * as THREE from "three";
+import { getParams } from "./getParams";
+import type { Effect } from "./types";
 
-const cloudMaterial = new THREE.MeshBasicMaterial({
-  color: 0xffffff,
-});
+const cloudMaterial = new THREE.MeshBasicMaterial();
 
 const cloud1 = [
   {
@@ -45,6 +45,8 @@ const cloud2 = [
 let cloud1Group: THREE.Group | null = null;
 let cloud2Group: THREE.Group | null = null;
 let cloud3Group: THREE.Group | null = null;
+
+// 雲の作成
 const createCloud = (cloudData: typeof cloud1 | typeof cloud2) => {
   const cloud = new THREE.Group();
 
@@ -60,8 +62,16 @@ const createCloud = (cloudData: typeof cloud1 | typeof cloud2) => {
   return cloud;
 };
 
+/**
+ * 雲の作成
+ */
 export const createClouds = () => {
+  const params = getParams("day");
   const clouds = new THREE.Group();
+
+  // 初期色を設定
+  cloudMaterial.color.set(params.cloudColor);
+
   cloud1Group = createCloud(cloud1);
   cloud1Group.position.set(0, 34, -32);
   cloud1Group.scale.set(15, 10, 10);
@@ -78,9 +88,19 @@ export const createClouds = () => {
   cloud3Group.rotation.y = -Math.PI;
   clouds.add(cloud3Group);
 
-  return clouds;
+  const onChangeEffectClouds = (effect: Effect) => {
+    const mode = effect === "bloom" ? "night" : "day";
+    const newParams = getParams(mode);
+    cloudMaterial.color.set(newParams.cloudColor);
+  };
+
+  return { clouds, onChangeEffectClouds };
 };
 
+/**
+ * 雲をアニメーションさせる
+ * @param elapsedTime
+ */
 export const animateClouds = (elapsedTime: number) => {
   if (!cloud1Group || !cloud2Group || !cloud3Group) {
     return;

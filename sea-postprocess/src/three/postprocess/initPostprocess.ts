@@ -1,26 +1,17 @@
 import type * as THREE from "three";
-import {
-  PostProcessing,
-  type Node,
-  type TextureNode,
-  type WebGPURenderer,
-} from "three/webgpu";
-import { pass, type ShaderNodeObject } from "three/tsl";
+import { PostProcessing, type WebGPURenderer } from "three/webgpu";
+import { pass } from "three/tsl";
 import { createChromatic } from "./chromatic";
-import { gui } from "../../gui/gui";
 import { createBloom } from "./bloom";
+import type { Effect } from "../types";
 
-type Effect = "none" | "chromatic" | "bloom";
-
-const params = {
-  effect: "none",
-};
-
-export const initPostprocess = (
-  scene: THREE.Scene,
-  camera: THREE.PerspectiveCamera,
-  renderer: WebGPURenderer,
-) => {
+/**
+ * ポストプロセスの初期化
+ * @param scene - シーン
+ * @param camera - カメラ
+ * @param renderer - レンダラー
+ */
+export const initPostprocess = (scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: WebGPURenderer) => {
   const postprocessing = new PostProcessing(renderer);
   const scenePass = pass(scene, camera);
   const scenePassColor = scenePass.getTextureNode();
@@ -28,29 +19,24 @@ export const initPostprocess = (
 
   postprocessing.outputNode = createChromatic(scenePassColor, viewZ);
 
-  addGui(scenePassColor, viewZ, postprocessing);
-
-  return postprocessing;
-};
-
-const addGui = (
-  scenePassColor: ShaderNodeObject<TextureNode>,
-  viewZ: ShaderNodeObject<Node>,
-  postprocessing: PostProcessing,
-) => {
-  const postprocessingFolder = gui.addFolder("Postprocessing");
-
-  postprocessingFolder
-    .add(params, "effect", ["none", "chromatic", "bloom"])
-    .name("Effect")
-    .onChange((value: Effect) => {
-      if (value === "none") {
+  // ポストプロセスのエフェクトを変更する
+  const changePostprocess = (effect: Effect) => {
+    switch (effect) {
+      case "none":
         postprocessing.outputNode = scenePassColor;
-      } else if (value === "chromatic") {
+        break;
+      case "chromatic":
         postprocessing.outputNode = createChromatic(scenePassColor, viewZ);
-      } else if (value === "bloom") {
+        break;
+      case "bloom":
         postprocessing.outputNode = createBloom(scenePassColor);
-      }
-      postprocessing.needsUpdate = true;
-    });
+        break;
+      default:
+        postprocessing.outputNode = scenePassColor;
+        break;
+    }
+    postprocessing.needsUpdate = true;
+  };
+
+  return { postprocessing, changePostprocess };
 };

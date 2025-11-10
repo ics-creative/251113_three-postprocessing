@@ -4,27 +4,32 @@ import * as THREE from "three";
 import { initPostprocess } from "./postprocess/initPostprocess";
 import { animateClouds, createClouds } from "./createClouds";
 import { createIsland } from "./createIsland";
+import { gui } from "../gui/gui";
+import type { Effect } from "./types";
+
+const effects: Effect[] = ["none", "chromatic", "bloom"] as const;
 
 export const initThree = (app: HTMLDivElement) => {
-  const { scene, camera, renderer } = createScene(app);
+  const { scene, camera, renderer, onChangeEffectScene } = createScene(app);
 
   const sea = createSea();
   scene.add(sea);
 
-  const clouds = createClouds();
+  const { clouds, onChangeEffectClouds } = createClouds();
   scene.add(clouds);
 
-  const island = createIsland();
+  const { island, onChangeEffectIsland } = createIsland();
   scene.add(island);
 
-  const postprocessing = initPostprocess(scene, camera, renderer);
+  const { postprocessing, changePostprocess } = initPostprocess(scene, camera, renderer);
+
+  addGui([changePostprocess, onChangeEffectScene, onChangeEffectIsland, onChangeEffectClouds]);
 
   const clock = new THREE.Clock();
 
   const tick = () => {
     postprocessing.render();
     const elapsedTime = clock.getElapsedTime();
-    // console.log(elapsedTime)
     animateSea(elapsedTime);
     animateClouds(elapsedTime);
     requestAnimationFrame(tick);
@@ -33,4 +38,17 @@ export const initThree = (app: HTMLDivElement) => {
   tick();
 
   window.addEventListener("resize", () => handleResize(camera, renderer));
+};
+
+const addGui = (callbacks: ((effect: Effect) => void)[]) => {
+  const postprocessingFolder = gui.addFolder("Postprocessing");
+
+  postprocessingFolder
+    .add({ effect: "chromatic" }, "effect", effects)
+    .name("Effect")
+    .onChange((value: Effect) => {
+      for (const callback of callbacks) {
+        callback(value);
+      }
+    });
 };
