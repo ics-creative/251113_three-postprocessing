@@ -7,8 +7,12 @@ import { createIsland } from "./createIsland";
 import { gui } from "../gui/gui";
 import type { Effect } from "./types";
 
-const effects: Effect[] = ["none", "chromatic", "bloom"] as const;
+const effects: Effect[] = ["none", "chromatic", "bloom", "pixelation", "sepia"] as const;
 
+/**
+ * Three.jsの初期化
+ * @param app
+ */
 export const initThree = (app: HTMLDivElement) => {
   const { scene, camera, renderer, onChangeEffectScene } = createScene(app);
 
@@ -27,8 +31,8 @@ export const initThree = (app: HTMLDivElement) => {
 
   const clock = new THREE.Clock();
 
-  const tick = () => {
-    postprocessing.render();
+  const tick = async () => {
+    await postprocessing.renderAsync();
     const elapsedTime = clock.getElapsedTime();
     animateSea(elapsedTime);
     animateClouds(elapsedTime);
@@ -40,6 +44,7 @@ export const initThree = (app: HTMLDivElement) => {
   window.addEventListener("resize", () => handleResize(camera, renderer));
 };
 
+// GUIの追加
 const addGui = (callbacks: ((effect: Effect) => void)[]) => {
   const postprocessingFolder = gui.addFolder("Postprocessing");
 

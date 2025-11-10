@@ -1,7 +1,7 @@
 /**
  * ポストプロセスのエフェクト
  */
-export type Effect = "none" | "chromatic" | "bloom";
+export type Effect = "none" | "chromatic" | "bloom" | "pixelation" | "sepia";
 
 /**
  * 昼/夜モード

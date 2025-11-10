@@ -4,6 +4,8 @@ import { pass } from "three/tsl";
 import { createChromatic } from "./chromatic";
 import { createBloom } from "./bloom";
 import type { Effect } from "../types";
+import { createPixelation } from "./pixelation";
+import { createSepia } from "./sepia";
 
 /**
  * ポストプロセスの初期化
@@ -30,6 +32,12 @@ export const initPostprocess = (scene: THREE.Scene, camera: THREE.PerspectiveCam
         break;
       case "bloom":
         postprocessing.outputNode = createBloom(scenePassColor);
+        break;
+      case "pixelation":
+        postprocessing.outputNode = createPixelation(scene, camera);
+        break;
+      case "sepia":
+        postprocessing.outputNode = createSepia(scenePassColor);
         break;
       default:
         postprocessing.outputNode = scenePassColor;

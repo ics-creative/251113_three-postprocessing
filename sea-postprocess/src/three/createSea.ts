@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { createNoise2D } from "simplex-noise";
-import { gui } from "../gui/gui";
 
 const noise2D = createNoise2D();
 
@@ -53,8 +52,6 @@ export const createSea = (): THREE.Mesh => {
   sea.position.y = 0;
   sea.receiveShadow = true;
 
-  addGui(seaMat);
-
   return sea;
 };
 
@@ -79,14 +76,4 @@ export const animateSea = (elapsedTime: number) => {
   }
   positionAttribute.needsUpdate = true;
   seaGeom.computeVertexNormals();
-};
-
-const addGui = (seaMat: THREE.MeshStandardMaterial) => {
-  const seaFolder = gui.addFolder("Sea");
-  seaFolder.addColor(seaParams, "color").onChange((value: string) => {
-    seaMat.color.set(value);
-  });
-
-  seaFolder.add(seaParams, "waveSpeed", 0.1, 2.0, 0.1).name("Wave Speed");
-  seaFolder.add(seaParams, "waveAmplitude", 0, 10.0, 0.01).name("Wave Amplitude");
 };
