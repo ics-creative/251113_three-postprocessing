@@ -1,0 +1,46 @@
+ICS MEDIA『』のサンプルコードです。
+
+## 機能
+
+- 海、島、雲のある3Dシーン
+- 4種類のポストプロセスエフェクト
+  - Chromatic Aberration（色収差）
+  - Bloom（グロー効果）
+  - Pixelation（ピクセル化）
+  - Sepia（セピア調）
+- GUIコントロールによるエフェクト切り替え
+
+## 技術スタック
+
+- Three.js v0.180.0 (WebGPU)
+- Vite
+- TypeScript
+- lil-gui
+
+## セットアップ
+
+```bash
+# 依存関係のインストール
+npm install
+
+# 開発サーバー起動
+npm run dev
+```
+
+## 開発コマンド
+
+```bash
+# ビルド
+npm run build
+
+# プレビュー
+npm run preview
+
+# 型チェック + Lint + Format
+npm run fix
+```
+
+## ライセンス
+
+MIT
+
