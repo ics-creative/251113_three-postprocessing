@@ -6,10 +6,12 @@
 ## プロジェクト概要
 
 - **プロジェクト名**: sea-postprocess
+- **構成**: マルチページアプリケーション（MPA）
 - **フレームワーク**: Vite + Vanilla TypeScript
 - **主要ライブラリ**: Three.js (v0.180.0)
 - **GUIツール**: lil-gui (v0.21.0)
 - **リンター/フォーマッター**: Biome (v2.3.2)
+- **ページ構成**: トップページ、Seaデモ、Boxデモの3ページ
 
 ## コーディング規約
 
@@ -61,27 +63,34 @@ npm run _format
 
 ```
 sea-postprocess/
-├── src/
-│   ├── main.ts                           # エントリーポイント
-│   ├── style.css                         # グローバルスタイル
-│   ├── gui/
-│   │   └── gui.ts                        # GUIコントロール設定
-│   └── three/
-│       ├── initThree.ts                  # Three.js初期化
-│       ├── createScene.ts                # シーン構築
-│       ├── createClouds.ts               # 雲オブジェクト生成
-│       ├── createIsland.ts               # 島オブジェクト生成
-│       ├── createSea.ts                  # 海オブジェクト生成
-│       ├── getParams.ts                  # パラメータ取得
-│       ├── types.ts                      # 型定義
-│       └── postprocess/
-│           ├── initPostprocess.ts        # ポストプロセス初期化
-│           ├── bloom.ts                  # ブルームエフェクト
-│           ├── chromatic.ts              # 色収差エフェクト
-│           ├── pixelation.ts             # ピクセレーションエフェクト
-│           └── sepia.ts                  # セピアエフェクト
+├── index.html                            # トップページ（リンク集）
+├── sea/                                  # Seaデモ
+│   ├── sea.html                          # SeaページのHTML
+│   └── src/
+│       ├── main.ts                       # エントリーポイント
+│       ├── style.css                     # グローバルスタイル
+│       ├── gui/
+│       │   └── gui.ts                    # GUIコントロール設定
+│       └── three/
+│           ├── initThree.ts              # Three.js初期化
+│           ├── createScene.ts            # シーン構築
+│           ├── createClouds.ts           # 雲オブジェクト生成
+│           ├── createIsland.ts           # 島オブジェクト生成
+│           ├── createSea.ts              # 海オブジェクト生成
+│           ├── getParams.ts              # パラメータ取得
+│           ├── types.ts                  # 型定義
+│           └── postprocess/
+│               ├── initPostprocess.ts    # ポストプロセス初期化
+│               ├── bloom.ts              # ブルームエフェクト
+│               ├── chromatic.ts          # 色収差エフェクト
+│               ├── pixelation.ts         # ピクセレーションエフェクト
+│               └── sepia.ts              # セピアエフェクト
+├── box/                                  # Boxデモ
+│   ├── box.html                          # BoxページのHTML
+│   ├── main.ts                           # エントリーポイント（シンプルなBox）
+│   └── style.css                         # スタイル
 ├── public/                               # 静的ファイル
-├── index.html                            # HTMLテンプレート
+├── vite.config.ts                        # Vite設定（マルチページ対応）
 ├── biome.json                            # Biome設定
 ├── tsconfig.json                         # TypeScript設定
 ├── package.json                          # 依存関係
