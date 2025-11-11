@@ -29,7 +29,8 @@ const init = () => {
   const postprocessing = new PostProcessing(renderer);
   const scenePass = pass(scene, camera);
   const scenePassColor = scenePass.getTextureNode();
-  postprocessing.outputNode = dotScreen(scenePassColor);
+  const dotScreenPass = dotScreen(scenePassColor);
+  postprocessing.outputNode = dotScreenPass;
 
   const handleResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
