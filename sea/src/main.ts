@@ -1,4 +1,3 @@
-import "./style.css";
 import { initThree } from "./three/initThree";
 
 const init = () => {
