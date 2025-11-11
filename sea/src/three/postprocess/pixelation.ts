@@ -10,8 +10,6 @@ export const createPixelation = (scene: THREE.Scene, camera: THREE.PerspectiveCa
   const size = uniform(5);
   const normalStrength = uniform(0.5);
   const edgeSharpness = uniform(1);
-
   const pixelation = pixelationPass(scene, camera, size, normalStrength, edgeSharpness);
-
   return pixelation;
 };

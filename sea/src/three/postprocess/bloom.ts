@@ -5,7 +5,6 @@ import { bloom } from "three/examples/jsm/tsl/display/BloomNode.js";
 /**
  * bloomエフェクトの作成
  * @param node
- * @returns
  */
 export const createBloom = (node: ShaderNodeObject<TextureNode>) => {
   const bloomPass = bloom(node, 0.3, 0, 0);

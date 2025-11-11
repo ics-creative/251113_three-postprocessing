@@ -14,8 +14,6 @@ export const createChromatic = (node: ShaderNodeObject<TextureNode>, viewZ: Shad
   const centerVector = new THREE.Vector2(0.4, 0.4);
   const centerNode = uniform(centerVector);
   const chromaticPass = chromaticAberration(node, float(0.2), centerNode);
-
   const dofPass = dof(chromaticPass, viewZ);
-
   return dofPass;
 };
