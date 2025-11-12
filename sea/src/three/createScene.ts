@@ -45,7 +45,7 @@ const createFog = (mode: DayMode) => {
  * シーンの作成
  * @param container
  */
-export const createScene = (container: HTMLDivElement) => {
+export const createScene = async (container: HTMLDivElement) => {
   const params = getParams("day");
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(params.backgroundColor);
@@ -59,6 +59,7 @@ export const createScene = (container: HTMLDivElement) => {
   camera.position.set(0, 8, 30);
 
   const renderer = new WebGPURenderer({ antialias: true });
+  await renderer.init();
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
 

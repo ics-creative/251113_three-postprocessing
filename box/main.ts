@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { pass } from "three/tsl";
 import { dotScreen } from "three/examples/jsm/tsl/display/DotScreenNode.js";
 
-const init = () => {
+const init = async () => {
   const app = document.querySelector<HTMLDivElement>("#app");
   if (!app) {
     return;
@@ -15,6 +15,7 @@ const init = () => {
   camera.position.z = 5;
 
   const renderer = new WebGPURenderer({ antialias: true });
+  await renderer.init();
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -26,11 +27,11 @@ const init = () => {
   scene.add(cube);
 
   // ポストプロセス
-  const postprocessing = new PostProcessing(renderer);
+  const postProcessing = new PostProcessing(renderer);
   const scenePass = pass(scene, camera);
   const scenePassColor = scenePass.getTextureNode();
   const dotScreenPass = dotScreen(scenePassColor);
-  postprocessing.outputNode = dotScreenPass;
+  postProcessing.outputNode = dotScreenPass;
 
   const handleResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -40,13 +41,13 @@ const init = () => {
   window.addEventListener("resize", handleResize);
 
   // アニメーションループ
-  const animate = async () => {
+  const animate = () => {
     requestAnimationFrame(animate);
 
     cube.rotation.x = cube.rotation.x + 0.01;
     cube.rotation.y = cube.rotation.y + 0.01;
 
-    await postprocessing.renderAsync();
+    postProcessing.render();
   };
 
   animate();

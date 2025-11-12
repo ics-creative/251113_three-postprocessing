@@ -14,37 +14,37 @@ import { createSepia } from "./sepia";
  * @param renderer - レンダラー
  */
 export const initPostprocess = (scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: WebGPURenderer) => {
-  const postprocessing = new PostProcessing(renderer);
+  const postProcessing = new PostProcessing(renderer);
   const scenePass = pass(scene, camera);
   const scenePassColor = scenePass.getTextureNode();
   const viewZ = scenePass.getViewZNode();
 
-  postprocessing.outputNode = createChromatic(scenePassColor, viewZ);
+  postProcessing.outputNode = createChromatic(scenePassColor, viewZ);
 
   // ポストプロセスのエフェクトを変更する
   const changePostprocess = (effect: Effect) => {
     switch (effect) {
       case "none":
-        postprocessing.outputNode = scenePassColor;
+        postProcessing.outputNode = scenePassColor;
         break;
       case "chromatic":
-        postprocessing.outputNode = createChromatic(scenePassColor, viewZ);
+        postProcessing.outputNode = createChromatic(scenePassColor, viewZ);
         break;
       case "bloom":
-        postprocessing.outputNode = createBloom(scenePassColor);
+        postProcessing.outputNode = createBloom(scenePassColor);
         break;
       case "pixelation":
-        postprocessing.outputNode = createPixelation(scene, camera);
+        postProcessing.outputNode = createPixelation(scene, camera);
         break;
       case "sepia":
-        postprocessing.outputNode = createSepia(scenePassColor);
+        postProcessing.outputNode = createSepia(scenePassColor);
         break;
       default:
-        postprocessing.outputNode = scenePassColor;
+        postProcessing.outputNode = scenePassColor;
         break;
     }
-    postprocessing.needsUpdate = true;
+    postProcessing.needsUpdate = true;
   };
 
-  return { postprocessing, changePostprocess };
+  return { postProcessing, changePostprocess };
 };

@@ -13,8 +13,8 @@ const effects: Effect[] = ["none", "chromatic", "bloom", "pixelation", "sepia"] 
  * Three.jsの初期化
  * @param app
  */
-export const initThree = (app: HTMLDivElement) => {
-  const { scene, camera, renderer, onChangeEffectScene } = createScene(app);
+export const initThree = async (app: HTMLDivElement) => {
+  const { scene, camera, renderer, onChangeEffectScene } = await createScene(app);
 
   const sea = createSea();
   scene.add(sea);
@@ -25,14 +25,14 @@ export const initThree = (app: HTMLDivElement) => {
   const { island, onChangeEffectIsland } = createIsland();
   scene.add(island);
 
-  const { postprocessing, changePostprocess } = initPostprocess(scene, camera, renderer);
+  const { postProcessing, changePostprocess } = initPostprocess(scene, camera, renderer);
 
   addGui([changePostprocess, onChangeEffectScene, onChangeEffectIsland, onChangeEffectClouds]);
 
   const clock = new THREE.Clock();
 
-  const tick = async () => {
-    await postprocessing.renderAsync();
+  const tick = () => {
+    postProcessing.render();
     const elapsedTime = clock.getElapsedTime();
     animateSea(elapsedTime);
     animateClouds(elapsedTime);
@@ -46,9 +46,9 @@ export const initThree = (app: HTMLDivElement) => {
 
 // GUIの追加
 const addGui = (callbacks: ((effect: Effect) => void)[]) => {
-  const postprocessingFolder = gui.addFolder("Postprocessing");
+  const postProcessingFolder = gui.addFolder("Post Processing");
 
-  postprocessingFolder
+  postProcessingFolder
     .add({ effect: "chromatic" }, "effect", effects)
     .name("Effect")
     .onChange((value: Effect) => {
