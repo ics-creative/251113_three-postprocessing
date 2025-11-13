@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { float, uniform } from "three/tsl";
 
 /**
- * chromaticエフェクトの作成
+ * Chromatic Aberration + Depth of Fieldエフェクトの作成
  * @param node
  * @param viewZ
  */

@@ -3,7 +3,7 @@ import type * as THREE from "three";
 import { pixelationPass } from "three/examples/jsm/tsl/display/PixelationPassNode.js";
 
 /**
- * pixelationエフェクトの作成
+ * Pixelationエフェクトの作成
  * @param node
  */
 export const createPixelation = (scene: THREE.Scene, camera: THREE.PerspectiveCamera) => {

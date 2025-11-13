@@ -1,12 +1,12 @@
 import * as THREE from "three";
-import { createNoise2D } from "simplex-noise";
+import { SimplexNoise } from "three/examples/jsm/Addons.js";
 
-const noise2D = createNoise2D();
+const simplexNoise = new SimplexNoise();
 
 const seaParams = {
   color: "#52ebff",
-  frequency: 0.1,
-  amplitude: 0.7,
+  frequency: 0.09,
+  amplitude: 0.75,
   waveSpeed: 0.2,
   waveAmplitude: 0.4,
 };
@@ -27,7 +27,7 @@ const applyNoise = () => {
     const x = positionAttribute.getX(index);
     const y = positionAttribute.getY(index);
 
-    const noiseValue = noise2D(x * seaParams.frequency, y * seaParams.frequency);
+    const noiseValue = simplexNoise.noise(x * seaParams.frequency, y * seaParams.frequency);
     const height = noiseValue * seaParams.amplitude;
 
     positionAttribute.setZ(index, height);
@@ -68,7 +68,7 @@ export const animateSea = (elapsedTime: number) => {
     const originalZ = originalZPositions[index];
 
     // xとyの値からノイズを生成し、timeで変化させる
-    const noiseValue = noise2D(x * seaParams.frequency + time, y * seaParams.frequency + time);
+    const noiseValue = simplexNoise.noise(x * seaParams.frequency + time, y * seaParams.frequency + time);
     const waveHeight = noiseValue * seaParams.waveAmplitude;
 
     // 元のz座標を基準に波の高さを加算

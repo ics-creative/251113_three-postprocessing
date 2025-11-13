@@ -5,7 +5,7 @@ import { film as filmPass } from "three/examples/jsm/tsl/display/FilmNode.js";
 import { gaussianBlur as gaussianBlurPass } from "three/examples/jsm/tsl/display/GaussianBlurNode.js";
 
 /**
- * sepiaエフェクトの作成
+ *  Sepia + Film + Gaussian Blurエフェクトの作成
  * @param node
  */
 export const createSepia = (node: ShaderNodeObject<TextureNode>) => {

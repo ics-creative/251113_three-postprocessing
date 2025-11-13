@@ -3,7 +3,7 @@ import type { TextureNode } from "three/webgpu";
 import { bloom } from "three/examples/jsm/tsl/display/BloomNode.js";
 
 /**
- * bloomエフェクトの作成
+ * Bloomエフェクトの作成
  * @param node
  */
 export const createBloom = (node: ShaderNodeObject<TextureNode>) => {
