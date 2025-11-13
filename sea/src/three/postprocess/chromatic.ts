@@ -13,7 +13,10 @@ import { float, uniform } from "three/tsl";
 export const createChromatic = (node: ShaderNodeObject<TextureNode>, viewZ: ShaderNodeObject<Node>) => {
   const centerVector = new THREE.Vector2(0.4, 0.4);
   const centerNode = uniform(centerVector);
+  // 色収差
   const chromaticPass = chromaticAberration(node, float(0.2), centerNode);
-  const dofPass = dof(chromaticPass, viewZ);
+  // 被写界深度
+  // 焦点をカメラの近くに固定し、遠くなるほどボケさせる
+  const dofPass = dof(chromaticPass, viewZ, 1);
   return dofPass;
 };

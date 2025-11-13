@@ -57,6 +57,7 @@ export const createScene = async (container: HTMLDivElement) => {
 
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 8, 30);
+  camera.lookAt(0, 4, 0);
 
   const renderer = new WebGPURenderer({ antialias: true });
   await renderer.init();
