@@ -64,11 +64,12 @@ npm run _format
 ```
 sea-postprocess/
 ├── index.html                            # トップページ（リンク集）
+├── sea.html                              # SeaページのHTML
+├── box.html                              # BoxページのHTML
+├── style.css                             # グローバルスタイル
 ├── sea/                                  # Seaデモ
-│   ├── sea.html                          # SeaページのHTML
 │   └── src/
 │       ├── main.ts                       # エントリーポイント
-│       ├── style.css                     # グローバルスタイル
 │       ├── gui/
 │       │   └── gui.ts                    # GUIコントロール設定
 │       └── three/
@@ -86,9 +87,7 @@ sea-postprocess/
 │               ├── pixelation.ts         # ピクセレーションエフェクト
 │               └── sepia.ts              # セピアエフェクト
 ├── box/                                  # Boxデモ
-│   ├── box.html                          # BoxページのHTML
-│   ├── main.ts                           # エントリーポイント（シンプルなBox）
-│   └── style.css                         # スタイル
+│   └── main.ts                           # エントリーポイント（シンプルなBox）
 ├── public/                               # 静的ファイル
 ├── vite.config.ts                        # Vite設定（マルチページ対応）
 ├── biome.json                            # Biome設定
@@ -102,7 +101,6 @@ sea-postprocess/
 ### dependencies（実行時に必要）
 - `three`: Three.js本体
 - `lil-gui`: GUIツール
-- `simplex-noise`: ノイズ生成ライブラリ
 
 ### devDependencies（開発時のみ必要）
 - `@biomejs/biome`: リンター・フォーマッター

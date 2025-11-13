@@ -1,4 +1,4 @@
-ICS MEDIA『』のサンプルコードです。
+ICS MEDIA『[簡単で効果大！　Three.jsのポストプロセスで3Dシーンを印象的にする](https://ics.media/entry/251113/)』のサンプルコードです。
 
 以下のURLからデモを確認できます。
 
